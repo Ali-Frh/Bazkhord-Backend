@@ -1,20 +1,25 @@
-# class Feedback:
-
 from django.db import models
 
+from app.models import User
 
-class Users(models.Model):
-    email = models.EmailField(unique=True)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    role = models.CharField(max_length=30)
-    created_at = models.DateTimeField(auto_now_add=True)
+"""
+this is the feedback model, it has a user, title and created_at fields
+it is used to store the feedbacks sent by users
+
+"""
 
 
 class Feedback(models.Model):
-    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+"""
+this is the message model, a feedback can have multiple messages 
+messages are sent by users to the feedback system
+their current format is markdown
+"""
 
 
 class Message(models.Model):
@@ -22,4 +27,4 @@ class Message(models.Model):
     msg_type = models.CharField(max_length=10, default="md")
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    sender = models.ForeignKey(Users, on_delete=models.CASCADE)
+    sender = models.ForeignKey(User, on_delete=models.CASCADE)
